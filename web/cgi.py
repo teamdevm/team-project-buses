@@ -1,5 +1,5 @@
-# !usr/bin/python
-from wsgiref.handlers import CGIHan
+#!/usr/bin/env python3
+from wsgiref.handlers import CGIHandler
 from buses import app
 
 
