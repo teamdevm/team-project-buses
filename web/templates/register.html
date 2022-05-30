@@ -24,7 +24,7 @@
 							<input type="password" id="aligned-password2" name="rep_password" class="pure-input-1" placeholder="Повторите пароль"  required=""/>
 						</div>
 						<div class="pure-control-group">
-										{{ f"<label>Ошибка регистрации: {reason}</label>" if failure else "" }}
+										{{ "Ошибка регистрации: {}".format(reason) if failure else "" |safe }}
 							<button type="submit" class="pure-button pure-input-1 pure-button-primary">Зарегистрироваться</button>
 						</div>
 					</fieldset>
