@@ -19,7 +19,7 @@ paths:
           description: "Server error"
     post:
       parameters:
-      - name: login
+      - name: login_data
         in: body
         required: true
         schema:
@@ -44,7 +44,7 @@ paths:
           description: "Server error"
     post:
       parameters:
-      - name: login
+      - name: reg_data
         in: body
         required: true
         schema: 
