@@ -10,7 +10,7 @@ basePath: /
 schemes:
 - https
 paths:
-  /api/login:
+  /login:
     get:
       responses:
         "200":
@@ -35,7 +35,7 @@ paths:
         - "multipart/form-data"
       produces:
         - "text/html"
-  /api/registration:
+  /registration:
     get:
       responses:
         "200":
