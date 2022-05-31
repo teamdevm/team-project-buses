@@ -21,4 +21,6 @@ jobs:
           script: |
             git -C bus checkout master
             git -C bus pull
+            cd bus/web
+            python3 init_db.py
 
