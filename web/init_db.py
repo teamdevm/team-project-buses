@@ -1,9 +1,10 @@
 import sqlite3
 from os.path import exists
 from glob import glob
+from models import db_filename
 
 
-conn = sqlite3.connect("data/buses.db")
+conn = sqlite3.connect(db_filename)
 cur = conn.cursor()
 try:
     cur.execute("SELECT * FROM db_ver LIMIT 1;")
@@ -12,7 +13,7 @@ except:
     ver = 0
 
 max_ver = len(glob("sql/migrate*.sql"))
-print(f"Current db version is {ver}, maximum version is {max_ver}")
+print(f"Current db version is {ver}, the latest version is {max_ver}")
 for cur_ver in range(ver + 1, max_ver + 1):
     with open(f"sql/migrate{cur_ver}.sql") as startup_script:
         script_str = startup_script.read()

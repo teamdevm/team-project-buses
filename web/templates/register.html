@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
+		<title>Buses</title>
+	</head>
+	<body>
+		<div class="pure-g">
+			<div class="pure-u-1-3"></div>
+			<div class="pure-u-1-3">
+				<h2>Регистрация</h2>
+				<form class="pure-form pure-form-aligned" action="" method="post">
+					<fieldset>
+						<div class="pure-control-group">
+							<label for="aligned-name">Имя пользователя</label>
+							<input type="text" id="aligned-name" name="login" class="pure-input-1" placeholder="Имя пользователя" required=""/>
+						</div>
+						<div class="pure-control-group">
+							<label for="aligned-password">Пароль</label>
+							<input type="password" id="aligned-password" name="password" class="pure-input-1" placeholder="Пароль"  required=""/>
+						</div>
+						<div class="pure-control-group">
+							<input type="password" id="aligned-password2" name="rep_password" class="pure-input-1" placeholder="Повторите пароль"  required=""/>
+						</div>
+						<div class="pure-control-group">
+										{{ "Ошибка регистрации: {}".format(reason) if failure else "" |safe }}
+							<button type="submit" class="pure-button pure-input-1 pure-button-primary">Зарегистрироваться</button>
+							<a href="login">Уже есть аккаунт?</a>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="pure-u-1-3"></div>
+		</div>
+	</body>
+</html>

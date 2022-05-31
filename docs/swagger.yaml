@@ -9,3 +9,72 @@ info:
 basePath: /
 schemes:
 - https
+paths:
+  /login:
+    get:
+      responses:
+        "200":
+          description: "Get page for logging in"
+        "500":
+          description: "Server error"
+    post:
+      parameters:
+      - name: login_data
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/logginData"
+      responses:
+        "200":
+          description: "Logged in"
+        "404":
+          description: "Cannot find user"
+        "500":
+          description: "Server error"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "text/html"
+  /registration:
+    get:
+      responses:
+        "200":
+          description: "Get page for logging in"
+        "500":
+          description: "Server error"
+    post:
+      parameters:
+      - name: reg_data
+        in: body
+        required: true
+        schema: 
+          $ref: "#/definitions/regData"
+      responses:
+        "201":
+          description: "User created"
+        "400":
+          description: "Cannot create such user"
+        "500":
+          description: "Server error"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "text/html"
+definitions:
+  regData:
+    type: "object"
+    properties:
+      login:
+        type: "string"
+      password:
+        type: "string"
+      rep_password:
+        type: "string"
+  logginData:
+    type: "object"
+    properties:
+      login:
+        type: "string"
+      password:
+        type: "string"
+

@@ -1,7 +1,9 @@
 import peewee
+from os import environ
 
 
-db = peewee.SqliteDatabase("data/buses.db")
+db_filename = environ.get("BUSES_DB_FILE", "./data/buses.db")
+db = peewee.SqliteDatabase(db_filename)
 
 
 class BaseModel(peewee.Model):

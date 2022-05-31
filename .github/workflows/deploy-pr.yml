@@ -19,7 +19,7 @@ jobs:
           script: |
             [ -d pr/${{ github.event.pull_request.number }} ] || git clone git@github.com:teamdevm/team-project-buses.git pr/${{ github.event.pull_request.number }}
             git -C pr/${{ github.event.pull_request.number }} fetch
-            git -C pr/${{ github.event.pull_request.number }} checkout ${{ github.head_ref }}
+            git -C pr/${{ github.event.pull_request.number }} checkout origin/${{ github.head_ref }}
             cp bus/web/data/buses.db pr/${{ github.event.pull_request.number }}/web/data/buses.db
             cd pr/${{ github.event.pull_request.number }}/web
             python3 init_db.py
