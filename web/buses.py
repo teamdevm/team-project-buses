@@ -7,12 +7,13 @@ import handlers
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 @app.route("/login", methods=["GET"])
 def login_page():
     return handlers.login_page()
 
 
+@app.route("/", methods=["POST"])
 @app.route("/login", methods=["POST"])
 def login_user():
     if all(field in request.form for field in ["login", "password"]):
