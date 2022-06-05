@@ -24,7 +24,10 @@ def login_page():
     return render_template("login.html", failure=False)
 
 
-def login_user(username: str, password: str):
+def login_user(login_data):
+    username = login_data["login"][0]
+    password = login_data["password"][0]
+
     try:
         # find by login
         user = models.User.get(models.User.login == username)
@@ -41,7 +44,11 @@ def registration_page():
     return render_template("register.html", failure=False, reason="")
 
 
-def registrate_user(username: str, password: str, rep_password: str):
+def registrate_user(reg_data):
+    username = reg_data["login"][0]
+    password = reg_data["password"][0]
+    rep_password = reg_data["rep_password"][0]
+
     # check if login already is using
     try:
         models.User.get(models.User.login == username)

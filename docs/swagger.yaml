@@ -17,6 +17,9 @@ paths:
           description: "Get page for logging in"
         "500":
           description: "Server error"
+      produces:
+        - "text/html"
+      operationId: handlers.login_page
     post:
       parameters:
       - name: login_data
@@ -32,9 +35,10 @@ paths:
         "500":
           description: "Server error"
       consumes:
-        - "multipart/form-data"
+        - "application/x-www-form-urlencoded"
       produces:
         - "text/html"
+      operationId: handlers.login_user
   /registration:
     get:
       responses:
@@ -42,6 +46,9 @@ paths:
           description: "Get page for logging in"
         "500":
           description: "Server error"
+      produces:
+        - "text/html"
+      operationId: handlers.registration_page
     post:
       parameters:
       - name: reg_data
@@ -57,24 +64,37 @@ paths:
         "500":
           description: "Server error"
       consumes:
-        - "multipart/form-data"
+        - "application/x-www-form-urlencoded"
       produces:
         - "text/html"
+      operationId: handlers.registrate_user
 definitions:
   regData:
     type: "object"
     properties:
       login:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
       password:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
+          format: "password"
       rep_password:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
   logginData:
     type: "object"
     properties:
       login:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
       password:
-        type: "string"
+        type: "array"
+        items:
+          type: "string"
+          format: "password"
 
