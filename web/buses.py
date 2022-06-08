@@ -1,39 +1,14 @@
-import http.client
+import connexion
+from os import environ
 
-from flask import Flask, request
-import handlers
 # TODO: add middleware to catch db exceptions
 
-app = Flask(__name__)
+
+show_ui = environ.get("BUSES_SHOW_SWAGGER") in ["True", "1"]
+
+app = connexion.FlaskApp(__name__, specification_dir='../docs/', options = {"swagger_ui": show_ui})
+app.add_api('swagger.yaml', arguments={'title': 'Hello World Example'})
 
 
-@app.route("/", methods=["GET"])
-@app.route("/login", methods=["GET"])
-def login_page():
-    return handlers.login_page()
-
-
-@app.route("/", methods=["POST"])
-@app.route("/login", methods=["POST"])
-def login_user():
-    if all(field in request.form for field in ["login", "password"]):
-        return handlers.login_user(request.form["login"], request.form["password"])
-    else:
-        return "", http.client.BAD_REQUEST
-
-
-@app.route("/registration", methods=["GET"])
-def registration_page():
-    return handlers.registration_page()
-
-
-@app.route("/registration", methods=["POST"])
-def registrate_user():
-    if all(field in request.form for field in ["login", "password", "rep_password"]):
-        return handlers.registrate_user(
-            request.form["login"],
-            request.form["password"],
-            request.form["rep_password"]
-        )
-    else:
-        return "", http.client.BAD_REQUEST
+if __name__ == '__main__':
+    app.run(debug=True)
