@@ -68,6 +68,35 @@ paths:
       produces:
         - "text/html"
       operationId: handlers.registrate_user
+  /routes:
+    get:
+      responses:
+        "200":
+          description: "Get page for searching routes"
+        "500":
+          description: "Server error"
+      produces:
+        - "text/html"
+      operationId: handlers.routes_page
+    post:
+      parameters:
+      - name: route_data
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/routeData"
+      responses:
+        "200":
+          description: "Page with a list of routes"
+        "400":
+          description: "Bad request"
+        "500":
+          description: "Server error"
+      consumes:
+        - "application/x-www-form-urlencoded"
+      produces:
+        - "text/html"
+      operationId: handlers.find_routes
 definitions:
   regData:
     type: "object"
@@ -99,6 +128,30 @@ definitions:
       password:
         type: "array"
         maxItems: 1
+        items:
+          type: "string"
+          format: "password"
+  routeData:
+    type: "object"
+    properties:
+      departure_stop_id:
+        type: "array"
+        items:
+          type: "string"
+      arrival_stop_id:
+        type: "array"
+        items:
+          type: "string"
+          format: "password"
+  routeData:
+    type: "object"
+    properties:
+      departure_stop_id:
+        type: "array"
+        items:
+          type: "string"
+      arrival_stop_id:
+        type: "array"
         items:
           type: "string"
           format: "password"

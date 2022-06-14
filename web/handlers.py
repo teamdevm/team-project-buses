@@ -74,3 +74,11 @@ def registrate_user(reg_data):
                        registration_date=mktime(date.today().timetuple()))
 
     return render_template("reg_success.html", login=username), http.client.CREATED
+
+
+def routes_page():
+    return ""
+    
+    
+def find_routes(route_data):
+    return ""
