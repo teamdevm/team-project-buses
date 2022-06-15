@@ -74,15 +74,18 @@ definitions:
     properties:
       login:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
       password:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
           format: "password"
       rep_password:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
   logginData:
@@ -90,10 +93,12 @@ definitions:
     properties:
       login:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
       password:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
           format: "password"
