@@ -136,23 +136,12 @@ definitions:
     properties:
       departure_stop_id:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
       arrival_stop_id:
         type: "array"
+        maxItems: 1
         items:
           type: "string"
           format: "password"
-  routeData:
-    type: "object"
-    properties:
-      departure_stop_id:
-        type: "array"
-        items:
-          type: "string"
-      arrival_stop_id:
-        type: "array"
-        items:
-          type: "string"
-          format: "password"
-
