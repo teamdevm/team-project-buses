@@ -77,8 +77,8 @@ def registrate_user(reg_data):
 
 
 def routes_page():
-    return ""
+    return render_template("find_routes.html")
     
     
 def find_routes(route_data):
-    return ""
+    return render_template("routes.html")
