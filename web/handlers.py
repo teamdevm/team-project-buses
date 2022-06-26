@@ -12,7 +12,8 @@ import models
 
 err_msgs = {
     "pass don't match": "Введённые пароли не совпадают",
-    "user exists": "Пользователь с таким именем уже зарегистрирован"
+    "user exists": "Пользователь с таким именем уже зарегистрирован",
+    "password is bad": "Пароль слишком прост",
 }
 
 
@@ -43,6 +44,17 @@ def login_user(login_data):
 def registration_page():
     return render_template("register.html", failure=False, reason="")
 
+def _check_pass(password, fields=[]):
+    score = 0
+    uniq_len = len(password)
+    for s in fields:
+        if s in password:
+            uniq_len -= len(s)
+
+    score += min(3, (uniq_len-4)//4)
+    used_char_len = len(set(password))
+    score += min(3, (used_char_len-5)//3)
+    return score
 
 def registrate_user(reg_data):
     username = reg_data["login"][0]
@@ -65,6 +77,15 @@ def registrate_user(reg_data):
         return (
             render_template("register.html", failure=True,
                             reason=err_msgs["pass don't match"]),
+            http.client.BAD_REQUEST
+        )
+
+    # check if password qality is too low
+    pass_strength = _check_pass(password, [username])
+    if pass_strength < 2:
+        return (
+            render_template("register.html", failure=True,
+                            reason=err_msgs["password is bad"]),
             http.client.BAD_REQUEST
         )
 
