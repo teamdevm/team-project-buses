@@ -16,7 +16,7 @@ err_msgs = {
 
 
 def index():
-    return routes_page()
+    return render_template("landing.html")
 
 
 def login_page():
