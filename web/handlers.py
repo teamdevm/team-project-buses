@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 from peewee import DoesNotExist
 import http.client
@@ -17,8 +17,8 @@ err_msgs = {
 }
 
 
-def hello():
-    return "<p>Hello, World!</p>"
+def index():
+    return redirect("/routes"), 302
 
 
 def login_page():

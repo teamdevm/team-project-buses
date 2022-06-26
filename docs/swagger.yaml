@@ -10,6 +10,14 @@ basePath: /
 schemes:
 - https
 paths:
+  /:
+    get:
+      responses:
+        "302":
+          description: "Redirect to route search page"
+        "500":
+          description: "Server error"
+      operationId: handlers.index
   /login:
     get:
       responses:
