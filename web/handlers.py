@@ -32,7 +32,7 @@ def login_user(login_data):
         user = models.User.get(models.User.login == username)
         # check password
         if checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
-            return "Logged in"
+            return routes_page()
     except DoesNotExist:
         pass
 
@@ -72,8 +72,7 @@ def registrate_user(reg_data):
     models.User.create(login=username, password=hashed_pass,
                        registration_date=mktime(date.today().timetuple()))
 
-    return render_template("reg_success.html",
-                           login=username), http.client.CREATED
+    return routes_page()
 
 
 def routes_page():
