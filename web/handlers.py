@@ -16,7 +16,7 @@ err_msgs = {
 
 
 def index():
-    return redirect("/routes"), 302
+    return routes_page()
 
 
 def login_page():

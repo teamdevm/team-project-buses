@@ -17,6 +17,8 @@ paths:
           description: "Redirect to route search page"
         "500":
           description: "Server error"
+      produces:
+        - "text/html"
       operationId: handlers.index
   /login:
     get:
