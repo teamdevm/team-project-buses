@@ -8,7 +8,9 @@ import time
 import datetime
 import requests
 
-API_BASE="http://www.map.gptperm.ru/json/"
+
+API_BASE = "http://www.map.gptperm.ru/json/"
+
 
 def _api_request(endpoint, payload=None, ts=False):
     """Unified REST request method"""
@@ -29,6 +31,7 @@ def _api_request(endpoint, payload=None, ts=False):
 
     return resp.json()
 
+
 def _get_date_fmt(date=None):
     """get date in DD.MM.YYYY format
     :date: Datetime date object or none for today
@@ -45,16 +48,19 @@ def get_news():
     """Get the gortrans news"""
     return _api_request("news-links", ts=True)["newsLinks"]
 
+
 def get_route_tree(date=None):
     """Get lists of routes for different types of transport"""
     date = _get_date_fmt(date)
     return _api_request(f"route-types-tree/{date}/", ts=True)
 
+
 def get_full_route(route, date=None):
     """Get a full list of stops for a specific route"""
     date = _get_date_fmt(date)
     return _api_request(f"full-route/{date}/{route}")
-    
+
+
 def get_bus_locations(routes):
     """Get the current location of all busses on given routes
     Please note to not blast too many routes at once!
@@ -69,20 +75,24 @@ def get_bus_locations(routes):
     for val in routes:
         rlist += f"{val}-"
     return _api_request(f"get-moving-autos/{rlist}")["autos"]
-    
+
+
 def get_busstop_timetable(route, busstop, date=None):
     """get a timetable for route on a busstop"""
     date = _get_date_fmt(date)
     return _api_request(f"time-table-h/{date}/{route}/{busstop}")
-    
+
+
 def get_busstop_routes(busstop, date=None):
     """get a timetable for route on a busstop"""
     date = _get_date_fmt(date)
     return _api_request(f"stoppoint-routes/{date}/{busstop}")["routeTypes"]
 
+
 def get_busstop_arivals(busstop):
     """get a timetable for route on a busstop"""
     return _api_request(f"arrival-times/{busstop}", ts=True)["routeTypes"]
+
 
 def get_pavlions(ptype="build"):
     """Get all bus stops of the given pavilion type.
@@ -93,10 +103,33 @@ def get_pavlions(ptype="build"):
     """
     return _api_request(f"stops-with-pavilions?updateType={ptype}", ts=True)
 
-def main():
 
+def get_buses(date=None):
+    """Get all descriptions of all buses and shuttle buses
+
+    :return: list of bus dictionaries
+    """
+    date = _get_date_fmt(date)
+    transport = _api_request(f"route-types-tree/{date}/", ts=True)
+    buses = [
+        t["children"] for t in transport if t["title"] in ["Автобусы", "Маршрутные такси"]
+    ]
+    return buses[0] + buses[1]
+
+
+def get_rout_stops(route_num):
+    """Get all forward stops of specified bus route
+
+    :param route_num: routeId value
+    :return: list of stop point dictionaries
+    """
+    return [s for s in get_full_route(route_num)["fwdStoppoints"]]
+
+
+def main():
     print(get_pavlions()[0])
     print(get_bus_locations([53])[0])
+
 
 if __name__ == "__main__":
     main()

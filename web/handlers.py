@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 from peewee import DoesNotExist
 import http.client
@@ -6,9 +6,8 @@ from bcrypt import gensalt, checkpw, hashpw
 from datetime import date
 from time import mktime
 
-
 import models
-
+import path_finder
 
 err_msgs = {
     "pass don't match": "Введённые пароли не совпадают",
@@ -17,8 +16,8 @@ err_msgs = {
 }
 
 
-def hello():
-    return "<p>Hello, World!</p>"
+def index():
+    return render_template("landing.html")
 
 
 def login_page():
@@ -34,7 +33,7 @@ def login_user(login_data):
         user = models.User.get(models.User.login == username)
         # check password
         if checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
-            return "Logged in"
+            return routes_page()
     except DoesNotExist:
         pass
 
@@ -67,7 +66,7 @@ def registrate_user(reg_data):
         return (render_template(
             "register.html", failure=True,
             reason=err_msgs["user exists"]),
-               http.client.BAD_REQUEST
+                http.client.BAD_REQUEST
         )
     except DoesNotExist:
         pass
@@ -94,4 +93,24 @@ def registrate_user(reg_data):
     models.User.create(login=username, password=hashed_pass,
                        registration_date=mktime(date.today().timetuple()))
 
-    return render_template("reg_success.html", login=username), http.client.CREATED
+    return routes_page()
+
+
+def routes_page():
+    stops_name = []
+    stops = []
+    for stop in models.Stop.select():
+        if stop.name not in stops_name:
+            stops.append((stop.stop_id, stop.name))
+            stops_name.append(stop.name)
+    return render_template("pick_stops.html", stops=stops)
+
+
+def find_routes(route_data):
+    dep_stop_id = route_data["departure_stop_id"][0]
+    arr_stop_id = route_data["arrival_stop_id"][0]
+    dep_stop_name = models.Stop.get(models.Stop.stop_id == dep_stop_id).name
+    arr_stop_name = models.Stop.get(models.Stop.stop_id == arr_stop_id).name
+    return render_template("show_found_routes.html",
+                           routes=path_finder.direct_route(dep_stop_id, arr_stop_id),
+                           from_stop=dep_stop_name, to_stop=arr_stop_name)
