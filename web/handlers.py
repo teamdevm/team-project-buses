@@ -8,6 +8,7 @@ from time import mktime
 
 
 import models
+import gortrans
 
 
 err_msgs = {
@@ -77,7 +78,14 @@ def registrate_user(reg_data):
 
 
 def routes_page():
-    return render_template("find_routes.html")
+    all_routes = gortrans.get_route_tree()[0]["children"]
+    stops = []
+    for route in all_routes:
+        rt_stops = gortrans.get_full_route(route["routeId"])["fwdStoppoints"]
+        for s in rt_stops:
+            stops.append((s["stoppointId"], s["stoppointName"] + " " + str(s["stoppointId"])))
+
+    return render_template("find_routes.html", stops=set(stops))
     
     
 def find_routes(route_data):
