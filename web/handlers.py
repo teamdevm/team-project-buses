@@ -90,4 +90,5 @@ def find_routes(route_data):
     arr_stop_id = route_data["arrival_stop_id"][0]
     return render_template("show_found_routes.html",
                            routes=path_finder.direct_route(dep_stop_id,
-                                                           arr_stop_id))
+                                                           arr_stop_id),
+                           from="fixme", to="fixme")
