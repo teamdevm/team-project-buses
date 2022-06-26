@@ -6,10 +6,8 @@ from bcrypt import gensalt, checkpw, hashpw
 from datetime import date
 from time import mktime
 
-
 import models
 import path_finder
-
 
 err_msgs = {
     "pass don't match": "Введённые пароли не совпадают",
@@ -56,7 +54,7 @@ def registrate_user(reg_data):
         return (render_template(
             "register.html", failure=True,
             reason=err_msgs["user exists"]),
-               http.client.BAD_REQUEST
+                http.client.BAD_REQUEST
         )
     except DoesNotExist:
         pass
@@ -74,16 +72,23 @@ def registrate_user(reg_data):
     models.User.create(login=username, password=hashed_pass,
                        registration_date=mktime(date.today().timetuple()))
 
-    return render_template("reg_success.html", login=username), http.client.CREATED
+    return render_template("reg_success.html",
+                           login=username), http.client.CREATED
 
 
 def routes_page():
-    return render_template("pick_stops.html", stops=[
-        (s.stop_id, s.name) for s in models.Stop.select()
-    ])
-    
-    
+    stops_name = []
+    stops = []
+    for stop in models.Stop.select():
+        if stop.name not in stops_name:
+            stops.append((stop.stop_id, stop.name))
+            stops_name.append(stop.name)
+    return render_template("pick_stops.html", stops=stops)
+
+
 def find_routes(route_data):
     dep_stop_id = route_data["departure_stop_id"][0]
     arr_stop_id = route_data["arrival_stop_id"][0]
-    return render_template("show_found_routes.html", routes=path_finder.direct_route(dep_stop_id, arr_stop_id))
+    return render_template("show_found_routes.html",
+                           routes=path_finder.direct_route(dep_stop_id,
+                                                           arr_stop_id))
