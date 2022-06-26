@@ -88,7 +88,8 @@ def routes_page():
 def find_routes(route_data):
     dep_stop_id = route_data["departure_stop_id"][0]
     arr_stop_id = route_data["arrival_stop_id"][0]
+    dep_stop_name = models.Stop.get(models.Stop.stop_id == dep_stop_id).name
+    arr_stop_name = models.Stop.get(models.Stop.stop_id == arr_stop_id).name
     return render_template("show_found_routes.html",
-                           routes=path_finder.direct_route(dep_stop_id,
-                                                           arr_stop_id),
-                           from="fixme", to="fixme")
+                           routes=path_finder.direct_route(dep_stop_id, arr_stop_id),
+                           from_stop=dep_stop_name, to_stop=arr_stop_name)
